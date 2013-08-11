@@ -1,6 +1,6 @@
 CXXFLAGS =	 -g -Wall -fmessage-length=0 -std=c++0x `pkg-config --cflags freetype2 sdl ftgl` # -O2
-OBJS = main.o
-OBJS2 = server.o
+OBJS = main.o serialclass.o
+OBJS2 = server.o serialclass.o
 LIBS = -L/opt/local/lib -lpthread 
 TARGET = net
 TARGET2 = server

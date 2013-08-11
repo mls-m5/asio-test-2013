@@ -3,9 +3,11 @@
 #include <boost/asio.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/array.hpp>
-
+#include <sstream>
+#include "serialclass.h"
 
 using std::endl; using std::cout;
+using std::stringstream;
 
 //Tutorial 1-4
 //int main(int argc, char **argv) {
@@ -27,6 +29,8 @@ using std::endl; using std::cout;
 using boost::asio::ip::tcp;
 
 int main(int argc, char **argv) {
+	SerialClass sc;
+
 	try
 	{
 		if (argc != 2){
@@ -41,11 +45,11 @@ int main(int argc, char **argv) {
 		tcp::socket socket(io_service);
 		boost::asio::connect(socket, endpoint_iterator);
 
+		stringstream ss;
 		for (;;){
 			boost::array<char, 128> buf;
 			boost::system::error_code error;
 			size_t len = socket.read_some(boost::asio::buffer(buf), error);
-
 
 			if (error == boost::asio::error::eof){
 				break;
@@ -54,8 +58,15 @@ int main(int argc, char **argv) {
 				throw boost::system::system_error(error);
 			}
 
-			std::cout.write(buf.data(), len);
+			ss.write(&buf.front(), len);
+			//std::cout.write(buf.data(), len);
 		}
+
+		Serialize::iarchieve ia(ss);
+		Serialize::serialize(ia, sc, 1.3);
+		cout << "klassen " << endl;
+		cout << "x: " << sc.getX() << " y: " << sc.getY() << endl;
+
 	}
 	catch (std::exception& e){
 		std::cerr << e.what() << std::endl;
