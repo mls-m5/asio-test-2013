@@ -3,28 +3,12 @@
 #include <boost/asio.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/array.hpp>
+#include <boost/archive/binary_iarchive.hpp>
 #include <sstream>
 #include "serialclass.h"
 
 using std::endl; using std::cout;
 using std::stringstream;
-
-//Tutorial 1-4
-//int main(int argc, char **argv) {
-//	boost::asio::io_service io;
-//
-//	boost::asio::deadline_timer  t(io, boost::posix_time::seconds(5));
-//
-////	t.wait();
-//	t.async_wait([](const boost::system::error_code&){
-//		cout << "har väntat" << endl;
-//	}
-//	);
-//	std::cout << "gör det här först..." << std::endl;
-//
-//	io.run();
-//	return 0;
-//}
 
 using boost::asio::ip::tcp;
 
@@ -59,10 +43,9 @@ int main(int argc, char **argv) {
 			}
 
 			ss.write(&buf.front(), len);
-			//std::cout.write(buf.data(), len);
 		}
 
-		Serialize::iarchieve ia(ss);
+		boost::archive::binary_iarchive ia(ss);
 		Serialize::serialize(ia, sc, 1.3);
 		cout << "klassen " << endl;
 		cout << "x: " << sc.getX() << " y: " << sc.getY() << endl;

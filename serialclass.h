@@ -43,68 +43,6 @@ public:
 		ar & t.x;
 		ar & t.y;
 	}
-
-	class oarchive{
-	public:
-		oarchive(std::ostream &s){
-			stream = &s;
-		}
-
-		template <class t>
-		void operator & (t& data){
-			stream->write((char*) &data, sizeof(data));
-		}
-
-	private:
-		std::ostream * stream;
-	};
-
-
-	class iarchieve{
-	public:
-		iarchieve(std::istream &s){
-			stream = &s;
-		}
-
-		template <class t>
-		void operator & (t& data){
-			stream->read((char*)&data, sizeof(data));
-		}
-
-	private:
-		std::istream * stream;
-	};
-
-	class textoarchive{
-	public:
-		textoarchive(std::ostream &s){
-			stream = &s;
-		}
-
-		template <class t>
-		void operator & (t& data){
-			(*stream) <<  data << " ";
-		}
-
-	private:
-		std::ostream * stream;
-	};
-
-
-	class textiarchieve{
-	public:
-		textiarchieve(std::istream &s){
-			stream = &s;
-		}
-
-		template <class t>
-		void operator & (t& data){
-			(*stream) >>  data;
-		}
-
-	private:
-		std::istream * stream;
-	};
 };
 
 #endif /* SERIALCLASS_H_ */
