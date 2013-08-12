@@ -1,7 +1,7 @@
 CXXFLAGS = -g -Wall -fmessage-length=0 -std=c++0x  # -O2
 OBJS = main.o serialclass.o
 OBJS2 = server.o serialclass.o
-LIBS = -L/opt/local/lib -lpthread -lboost_serialization
+LIBS = -L/opt/local/lib -lboost_thread-mt -lpthread -lboost_serialization-mt
 TARGET = net
 TARGET2 = server
 
